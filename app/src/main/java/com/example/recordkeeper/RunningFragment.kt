@@ -28,15 +28,19 @@ class RunningFragment : Fragment() {
     }
 
     private fun setUpClickListeners() {
-        binding.container5km.setOnClickListener { launchRunningRecordScreen() }
-        binding.container10km.setOnClickListener { launchRunningRecordScreen() }
-        binding.container20km.setOnClickListener { launchRunningRecordScreen() }
-        binding.container25km.setOnClickListener { launchRunningRecordScreen() }
+        binding.container5km.setOnClickListener { launchRunningRecordScreen("5km") }
+        binding.container10km.setOnClickListener { launchRunningRecordScreen("10km") }
+        binding.container20km.setOnClickListener { launchRunningRecordScreen("20km") }
+        binding.container25km.setOnClickListener { launchRunningRecordScreen("25km") }
     }
 
-    private fun launchRunningRecordScreen() {
+    private fun launchRunningRecordScreen(distance: String) {
 
         val intent = Intent(context, EditRunningRecordActivity::class.java)
+
+        intent.putExtra("Distance",  distance)
+
+
         startActivity(intent)
     }
 }

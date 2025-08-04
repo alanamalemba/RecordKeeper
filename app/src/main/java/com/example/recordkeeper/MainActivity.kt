@@ -1,6 +1,7 @@
 package com.example.recordkeeper
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -10,8 +11,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.commit
 import com.example.recordkeeper.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView.OnItemSelectedListener
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), OnItemSelectedListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -22,30 +24,33 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setContentView(binding.root)
 
 
-        binding.bottomNav.setOnNavigationItemSelectedListener(this)
+        binding.bottomNav.setOnItemSelectedListener(this)
     }
 
-    private fun onRunningClicked() {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar, menu)
+        return true
+    }
+
+    private fun onRunningClicked(): Boolean {
         supportFragmentManager.commit {
             replace(R.id.frame_content, RunningFragment())
         }
+        return true
     }
 
-    private fun onCyclingClicked() {
+    private fun onCyclingClicked(): Boolean {
         supportFragmentManager.commit {
             replace(R.id.frame_content, CyclingFragment())
         }
+        return true
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.nav_cycling) {
-            onCyclingClicked()
-            return true
-        } else if (item.itemId == R.id.nav_running) {
-            onRunningClicked()
-            return true
-        } else {
-            return false
-        }
+    override fun onNavigationItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.nav_cycling -> onCyclingClicked()
+
+        R.id.nav_running -> onRunningClicked()
+
+        else -> false
     }
 }
