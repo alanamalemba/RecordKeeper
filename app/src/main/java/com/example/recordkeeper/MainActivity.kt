@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -30,6 +31,29 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.reset_running -> {
+            Toast.makeText(this, "Clicked the Reset Running menu item", Toast.LENGTH_LONG)
+                .show()
+            true
+        }
+
+        R.id.reset_cycling -> {
+            Toast.makeText(this, "Clicked the Reset Cycling menu item", Toast.LENGTH_LONG)
+                .show()
+            true
+        }
+
+        R.id.reset_all -> {
+            Toast.makeText(this, "Clicked the Reset All menu item", Toast.LENGTH_LONG).show()
+            true
+        }
+
+        else -> {
+             super.onOptionsItemSelected(item)
+        }
     }
 
     private fun onRunningClicked(): Boolean {
