@@ -1,5 +1,6 @@
 package com.example.recordkeeper.running
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,9 +14,7 @@ class RunningFragment : Fragment() {
     private lateinit var binding: FragmentRunningBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentRunningBinding.inflate(inflater, container, false)
         return binding.root
@@ -25,6 +24,22 @@ class RunningFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpClickListeners()
+
+        displayRecords()
+    }
+
+    private fun displayRecords() {
+        val runningPreferences =
+            requireContext().getSharedPreferences("running", Context.MODE_PRIVATE)
+
+        binding.textView5kmValue.text = runningPreferences.getString("5km_record", null)
+        binding.textView5kmDate.text = runningPreferences.getString("5km_date", null)
+        binding.textView10kmValue.text = runningPreferences.getString("10km_record", null)
+        binding.textView10kmDate.text = runningPreferences.getString("10km_date", null)
+        binding.textView20kmValue.text = runningPreferences.getString("20km_record", null)
+        binding.textView20kmDate.text = runningPreferences.getString("20km_date", null)
+        binding.textView25kmValue.text = runningPreferences.getString("25km_record", null)
+        binding.textView25kmDate.text = runningPreferences.getString("25km_date", null)
     }
 
     private fun setUpClickListeners() {
@@ -38,7 +53,7 @@ class RunningFragment : Fragment() {
 
         val intent = Intent(context, EditRunningRecordActivity::class.java)
 
-        intent.putExtra("Distance",  distance)
+        intent.putExtra("Distance", distance)
 
 
         startActivity(intent)

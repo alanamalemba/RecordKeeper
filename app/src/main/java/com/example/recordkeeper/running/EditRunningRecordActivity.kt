@@ -18,22 +18,18 @@ class EditRunningRecordActivity : AppCompatActivity() {
         val distance = intent.getStringExtra("Distance")
         title = "$distance Record"
 
-        val applicationPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        binding.buttonSave.setOnClickListener { saveRecord(distance) }
+    }
 
-        applicationPreferences.edit {
-            putString("someKey", "some value")
-        }
+    private fun saveRecord(distance: String?) {
+        val record = binding.editTextRecord.text.toString()
+        val date = binding.editTextDate.text.toString()
 
-        val activityPreferences = getPreferences(Context.MODE_PRIVATE)
+        val runningPreferences = getSharedPreferences("running", Context.MODE_PRIVATE)
 
-        activityPreferences.edit {
-            putInt("someKey2", 5)
-        }
-
-        val fileNamePreferences = getSharedPreferences("some_file_name", Context.MODE_PRIVATE)
-
-        fileNamePreferences.edit {
-            putBoolean("someKey3", false)
+        runningPreferences.edit {
+            putString("${distance}_record", record)
+            putString("${distance}_date", date)
         }
     }
 }
