@@ -20,12 +20,16 @@ class RunningFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        displayRecords()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setUpClickListeners()
-
-        displayRecords()
     }
 
     private fun displayRecords() {
