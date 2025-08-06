@@ -1,7 +1,8 @@
-package com.example.recordkeeper
+package com.example.recordkeeper.cycling
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.recordkeeper.R
 import com.example.recordkeeper.databinding.ActivityEditCyclingRecordBinding
 
 class EditCyclingRecordActivity : AppCompatActivity() {

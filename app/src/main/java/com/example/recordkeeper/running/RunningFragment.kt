@@ -1,4 +1,4 @@
-package com.example.recordkeeper
+package com.example.recordkeeper.running
 
 import android.content.Intent
 import android.os.Bundle
