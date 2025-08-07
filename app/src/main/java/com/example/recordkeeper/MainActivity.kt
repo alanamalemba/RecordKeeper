@@ -67,15 +67,19 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
                     else -> getSharedPreferences(selection, Context.MODE_PRIVATE).edit { clear() }
                 }
                 refreshCurrentFragment()
-                val snackBar = Snackbar.make(
-                    binding.root, "Records cleared successfully!", Snackbar.LENGTH_LONG
-                )
-                snackBar.anchorView = binding.bottomNav
-                snackBar.setAction("Undo") {
-                    // some code to restore the records
-                }
-                snackBar.show()
+                showDeletionConfirmationSnackBar()
             }.setNegativeButton("No", null).show()
+    }
+
+    private fun showDeletionConfirmationSnackBar() {
+        val snackBar = Snackbar.make(
+            binding.root, "Records cleared successfully!", Snackbar.LENGTH_LONG
+        )
+        snackBar.anchorView = binding.bottomNav
+        snackBar.setAction("Undo") {
+            // some code to restore the records
+        }
+        snackBar.show()
     }
 
     private fun refreshCurrentFragment() {
