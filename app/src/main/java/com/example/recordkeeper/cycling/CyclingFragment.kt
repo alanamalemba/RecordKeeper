@@ -1,5 +1,6 @@
 package com.example.recordkeeper.cycling
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,19 +8,44 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.recordkeeper.databinding.FragmentCyclingBinding
+import com.example.recordkeeper.editrecord.EditRecordActivity
 
 class CyclingFragment : Fragment() {
 
     private lateinit var binding: FragmentCyclingBinding
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentCyclingBinding.inflate(inflater, container, false)
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        displayRecords()
+    }
+
+    private fun displayRecords() {
+        val runningPreferences =
+            requireContext().getSharedPreferences("cycling", Context.MODE_PRIVATE)
+
+        binding.textViewLongestClimbValue.text =
+            runningPreferences.getString("Longest Climb record", null)
+        binding.textViewLongestClimbDate.text =
+            runningPreferences.getString("Longest Climb date", null)
+        binding.textViewLongestClimbValue.text =
+            runningPreferences.getString("Longest Climb record", null)
+        binding.textViewBiggestClimbValue.text =
+            runningPreferences.getString("Biggest Climb record", null)
+        binding.textViewBiggestClimbDate.text =
+            runningPreferences.getString("Biggest Climb date", null)
+        binding.textViewBestAverageSpeedValue.text =
+            runningPreferences.getString("Best Average Speed record", null)
+        binding.textViewBestAverageSpeedDate.text =
+            runningPreferences.getString("Best Average Speed date", null)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,15 +55,29 @@ class CyclingFragment : Fragment() {
     }
 
     private fun setUpClickListeners() {
-        binding.containerLongestClimb.setOnClickListener { launchEditCyclingRecordScreen("Longest Climb") }
-        binding.containerBiggestClimb.setOnClickListener { launchEditCyclingRecordScreen("Biggest Climb") }
-        binding.containerBestAverageSpeed.setOnClickListener { launchEditCyclingRecordScreen("Best Average Speed") }
+        binding.containerLongestClimb.setOnClickListener {
+            launchEditCyclingRecordScreen(
+                "Longest Climb", "Distance"
+            )
+        }
+        binding.containerBiggestClimb.setOnClickListener {
+            launchEditCyclingRecordScreen(
+                "Biggest Climb", "Height"
+            )
+        }
+        binding.containerBestAverageSpeed.setOnClickListener {
+            launchEditCyclingRecordScreen(
+                "Best Average Speed", "Average speed"
+            )
+        }
     }
 
-    private fun launchEditCyclingRecordScreen(title: String) {
-        val intent = Intent(context, EditCyclingRecordActivity::class.java)
+    private fun launchEditCyclingRecordScreen(record: String, recordFieldHint: String) {
+        val intent = Intent(context, EditRecordActivity::class.java)
 
-        intent.putExtra("Title", title)
+        intent.putExtra(
+            "screenData", EditRecordActivity.ScreenData(record, "cycling", recordFieldHint)
+        )
         startActivity(intent)
     }
 }
