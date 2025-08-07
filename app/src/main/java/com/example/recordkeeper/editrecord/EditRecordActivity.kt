@@ -2,6 +2,7 @@ package com.example.recordkeeper.editrecord
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
@@ -12,7 +13,12 @@ class EditRecordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditRecordBinding
 
     private val screenData: ScreenData by lazy {
-        intent.getSerializableExtra("screenData") as ScreenData
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra("screenData", ScreenData::class.java) as ScreenData
+        } else {
+            intent.getSerializableExtra("screenData") as ScreenData
+        }
     }
     private val recordReferences: SharedPreferences by lazy {
         getSharedPreferences(
