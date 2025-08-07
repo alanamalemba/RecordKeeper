@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.recordkeeper.databinding.FragmentCyclingBinding
 import com.example.recordkeeper.editrecord.EditRecordActivity
+import com.example.recordkeeper.editrecord.INTENT_EXTRA_SCREEN_DATA
 
 class CyclingFragment : Fragment() {
 
@@ -76,7 +77,7 @@ class CyclingFragment : Fragment() {
         val intent = Intent(context, EditRecordActivity::class.java)
 
         intent.putExtra(
-            "screenData", EditRecordActivity.ScreenData(record, "cycling", recordFieldHint)
+            INTENT_EXTRA_SCREEN_DATA, EditRecordActivity.ScreenData(record, "cycling", recordFieldHint)
         )
         startActivity(intent)
     }

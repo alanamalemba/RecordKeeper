@@ -14,6 +14,10 @@ import com.example.recordkeeper.running.RunningFragment
 import com.google.android.material.navigation.NavigationBarView.OnItemSelectedListener
 import com.google.android.material.snackbar.Snackbar
 
+const val RUNNING = "running"
+const val CYCLING = "cycling"
+const val ALL = "all"
+
 class MainActivity : AppCompatActivity(), OnItemSelectedListener {
 
     private lateinit var binding: ActivityMainBinding
@@ -35,17 +39,17 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.reset_running -> {
-            showDeletionConfirmationDialog("running")
+            showDeletionConfirmationDialog(RUNNING)
             true
         }
 
         R.id.reset_cycling -> {
-            showDeletionConfirmationDialog("cycling")
+            showDeletionConfirmationDialog(CYCLING)
             true
         }
 
         R.id.reset_all -> {
-            showDeletionConfirmationDialog("all")
+            showDeletionConfirmationDialog(ALL)
             true
         }
 
@@ -59,9 +63,9 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
             .setMessage("Are you sure you want to delete $selection records?")
             .setPositiveButton("Yes") { _, _ ->
                 when (selection) {
-                    "all" -> {
-                        getSharedPreferences("cycling", Context.MODE_PRIVATE).edit { clear() }
-                        getSharedPreferences("running", Context.MODE_PRIVATE).edit { clear() }
+                    ALL -> {
+                        getSharedPreferences(CYCLING, Context.MODE_PRIVATE).edit { clear() }
+                        getSharedPreferences(RUNNING, Context.MODE_PRIVATE).edit { clear() }
                     }
 
                     else -> getSharedPreferences(selection, Context.MODE_PRIVATE).edit { clear() }
