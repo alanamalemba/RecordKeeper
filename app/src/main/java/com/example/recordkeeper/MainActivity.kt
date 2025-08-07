@@ -1,15 +1,18 @@
 package com.example.recordkeeper
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.fragment.app.commit
 import com.example.recordkeeper.cycling.CyclingFragment
 import com.example.recordkeeper.databinding.ActivityMainBinding
 import com.example.recordkeeper.running.RunningFragment
 import com.google.android.material.navigation.NavigationBarView.OnItemSelectedListener
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity(), OnItemSelectedListener {
 
@@ -32,24 +35,53 @@ class MainActivity : AppCompatActivity(), OnItemSelectedListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.reset_running -> {
-            Toast.makeText(this, "Clicked the Reset Running menu item", Toast.LENGTH_LONG)
-                .show()
+            showDeletionConfirmationDialog("running")
             true
         }
 
         R.id.reset_cycling -> {
-            Toast.makeText(this, "Clicked the Reset Cycling menu item", Toast.LENGTH_LONG)
-                .show()
+            showDeletionConfirmationDialog("cycling")
             true
         }
 
         R.id.reset_all -> {
-            Toast.makeText(this, "Clicked the Reset All menu item", Toast.LENGTH_LONG).show()
+            showDeletionConfirmationDialog("all")
             true
         }
 
         else -> {
-             super.onOptionsItemSelected(item)
+            super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showDeletionConfirmationDialog(selection: String) {
+        AlertDialog.Builder(this).setTitle("Reset $selection records")
+            .setMessage("Are you sure you want to delete $selection records?")
+            .setPositiveButton("Yes") { _, _ ->
+                when (selection) {
+                    "all" -> {
+                        getSharedPreferences("cycling", Context.MODE_PRIVATE).edit { clear() }
+                        getSharedPreferences("running", Context.MODE_PRIVATE).edit { clear() }
+                    }
+
+                    else -> getSharedPreferences(selection, Context.MODE_PRIVATE).edit { clear() }
+                }
+                refreshCurrentFragment()
+                val snackBar = Snackbar.make(
+                    binding.root, "Records cleared successfully!", Snackbar.LENGTH_LONG
+                )
+                snackBar.anchorView = binding.bottomNav
+                snackBar.setAction("Undo") {
+                    // some code to restore the records
+                }
+                snackBar.show()
+            }.setNegativeButton("No", null).show()
+    }
+
+    private fun refreshCurrentFragment() {
+        when (binding.bottomNav.selectedItemId) {
+            R.id.nav_running -> onRunningClicked()
+            R.id.nav_cycling -> onCyclingClicked()
         }
     }
 
