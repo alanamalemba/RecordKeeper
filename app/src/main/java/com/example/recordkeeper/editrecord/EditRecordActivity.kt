@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.activity.OnBackPressedDispatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import com.example.recordkeeper.databinding.ActivityEditRecordBinding
@@ -36,6 +39,17 @@ class EditRecordActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupUi()
         displayRecord()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressedDispatcher.onBackPressed()
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setupUi() {
