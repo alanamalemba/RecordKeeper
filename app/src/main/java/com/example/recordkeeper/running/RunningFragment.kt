@@ -36,16 +36,40 @@ class RunningFragment : Fragment() {
 
     private fun displayRecords() {
         val runningPreferences =
-            requireContext().getSharedPreferences("running", Context.MODE_PRIVATE)
+            requireContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
 
-        binding.textView5kmValue.text = runningPreferences.getString("5km record", null)
-        binding.textView5kmDate.text = runningPreferences.getString("5km date", null)
-        binding.textView10kmValue.text = runningPreferences.getString("10km record", null)
-        binding.textView10kmDate.text = runningPreferences.getString("10km date", null)
-        binding.textView20kmValue.text = runningPreferences.getString("20km record", null)
-        binding.textView20kmDate.text = runningPreferences.getString("20km date", null)
-        binding.textView25kmValue.text = runningPreferences.getString("25km record", null)
-        binding.textView25kmDate.text = runningPreferences.getString("25km date", null)
+        binding.textView5kmValue.text = runningPreferences.getString(
+            "5km ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}",
+            null
+        )
+        binding.textView5kmDate.text = runningPreferences.getString(
+            "5km ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}",
+            null
+        )
+        binding.textView10kmValue.text = runningPreferences.getString(
+            "10km ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}",
+            null
+        )
+        binding.textView10kmDate.text = runningPreferences.getString(
+            "10km ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}",
+            null
+        )
+        binding.textView20kmValue.text = runningPreferences.getString(
+            "20km ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}",
+            null
+        )
+        binding.textView20kmDate.text = runningPreferences.getString(
+            "20km ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}",
+            null
+        )
+        binding.textView25kmValue.text = runningPreferences.getString(
+            "25km ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}",
+            null
+        )
+        binding.textView25kmDate.text = runningPreferences.getString(
+            "25km ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}",
+            null
+        )
     }
 
     private fun setUpClickListeners() {
@@ -59,8 +83,14 @@ class RunningFragment : Fragment() {
 
         val intent = Intent(context, EditRecordActivity::class.java)
 
-        intent.putExtra(INTENT_EXTRA_SCREEN_DATA, EditRecordActivity.ScreenData(distance, "running", "Time"))
+        intent.putExtra(
+            INTENT_EXTRA_SCREEN_DATA, EditRecordActivity.ScreenData(distance, FILE_NAME, "Time")
+        )
 
         startActivity(intent)
+    }
+
+    companion object {
+        const val FILE_NAME = "running";
     }
 }

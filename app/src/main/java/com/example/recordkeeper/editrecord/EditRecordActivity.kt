@@ -18,8 +18,7 @@ class EditRecordActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getSerializableExtra(
-                INTENT_EXTRA_SCREEN_DATA,
-                ScreenData::class.java
+                INTENT_EXTRA_SCREEN_DATA, ScreenData::class.java
             ) as ScreenData
         } else {
             intent.getSerializableExtra(INTENT_EXTRA_SCREEN_DATA) as ScreenData
@@ -57,15 +56,15 @@ class EditRecordActivity : AppCompatActivity() {
         binding.editTextRecord.setText("")
         binding.editTextDate.setText("")
         recordReferences.edit {
-            remove("${screenData.record} record")
-            remove("${screenData.record} date")
+            remove("${screenData.record} $SHARED_PREFERENCE_RECORD_KEY")
+            remove("${screenData.record} $SHARED_PREFERENCE_DATE_KEY")
         }
     }
 
     private fun displayRecord() {
         binding.editTextRecord.setText(
             recordReferences.getString(
-                "${screenData.record} record", null
+                "${screenData.record} $SHARED_PREFERENCE_RECORD_KEY", null
             )
         )
         binding.editTextDate.setText(recordReferences.getString("${screenData.record} date", null))
@@ -75,12 +74,17 @@ class EditRecordActivity : AppCompatActivity() {
         val record = binding.editTextRecord.text.toString()
         val date = binding.editTextDate.text.toString()
         recordReferences.edit {
-            putString("${screenData.record} record", record)
-            putString("${screenData.record} date", date)
+            putString("${screenData.record} $SHARED_PREFERENCE_RECORD_KEY", record)
+            putString("${screenData.record} $SHARED_PREFERENCE_DATE_KEY", date)
         }
     }
 
     data class ScreenData(
         val record: String, val sharedPreferencesName: String, val recordFieldHint: String
     ) : Serializable
+
+    companion object {
+        const val SHARED_PREFERENCE_RECORD_KEY = "record"
+        const val SHARED_PREFERENCE_DATE_KEY = "date"
+    }
 }

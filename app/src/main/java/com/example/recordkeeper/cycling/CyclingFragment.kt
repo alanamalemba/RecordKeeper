@@ -31,22 +31,36 @@ class CyclingFragment : Fragment() {
 
     private fun displayRecords() {
         val runningPreferences =
-            requireContext().getSharedPreferences("cycling", Context.MODE_PRIVATE)
+            requireContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
 
-        binding.textViewLongestClimbValue.text =
-            runningPreferences.getString("Longest Climb record", null)
-        binding.textViewLongestClimbDate.text =
-            runningPreferences.getString("Longest Climb date", null)
-        binding.textViewLongestClimbValue.text =
-            runningPreferences.getString("Longest Climb record", null)
-        binding.textViewBiggestClimbValue.text =
-            runningPreferences.getString("Biggest Climb record", null)
-        binding.textViewBiggestClimbDate.text =
-            runningPreferences.getString("Biggest Climb date", null)
-        binding.textViewBestAverageSpeedValue.text =
-            runningPreferences.getString("Best Average Speed record", null)
-        binding.textViewBestAverageSpeedDate.text =
-            runningPreferences.getString("Best Average Speed date", null)
+        binding.textViewLongestClimbValue.text = runningPreferences.getString(
+            "Longest Climb ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}",
+            null
+        )
+        binding.textViewLongestClimbDate.text = runningPreferences.getString(
+            "Longest Climb ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}",
+            null
+        )
+        binding.textViewLongestClimbValue.text = runningPreferences.getString(
+            "Longest Climb ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}",
+            null
+        )
+        binding.textViewBiggestClimbValue.text = runningPreferences.getString(
+            "Biggest Climb ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}",
+            null
+        )
+        binding.textViewBiggestClimbDate.text = runningPreferences.getString(
+            "Biggest Climb ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}",
+            null
+        )
+        binding.textViewBestAverageSpeedValue.text = runningPreferences.getString(
+            "Best Average Speed ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}",
+            null
+        )
+        binding.textViewBestAverageSpeedDate.text = runningPreferences.getString(
+            "Best Average Speed ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}",
+            null
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,8 +91,13 @@ class CyclingFragment : Fragment() {
         val intent = Intent(context, EditRecordActivity::class.java)
 
         intent.putExtra(
-            INTENT_EXTRA_SCREEN_DATA, EditRecordActivity.ScreenData(record, "cycling", recordFieldHint)
+            INTENT_EXTRA_SCREEN_DATA,
+            EditRecordActivity.ScreenData(record, FILE_NAME, recordFieldHint)
         )
         startActivity(intent)
+    }
+
+    companion object {
+        const val FILE_NAME = "cycling"
     }
 }
